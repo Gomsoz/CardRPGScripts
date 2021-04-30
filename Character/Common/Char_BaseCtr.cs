@@ -73,7 +73,10 @@ public abstract class Char_BaseCtr : MonoBehaviour, InterfaceClass.IPosition
             dir = targetPos - transform.position;
             yield return null;
             float moveDist = Mathf.Clamp(m_speed * Time.deltaTime, 0, dir.magnitude);
-            transform.position += dir.normalized * moveDist;           
+            transform.position += dir.normalized * moveDist;
+
+            if(transform.tag == "Player")
+                Managers.Camera.UpdateCameraPos(Defines.CameraType.Main);
         }
 
         SetPosition(pos);

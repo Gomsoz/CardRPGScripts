@@ -37,6 +37,8 @@ public class Scene_Game : Scene_Base
         int idx = GameManager.GameMgr.SaveSlotIdx;
         Managers.Json.LoadDataAndSpawnPlayer(idx);
         Managers.Json.LoadDataAndSpawnEnemy(idx);
+        Managers.Camera.SetTrackingTarget(Managers.Object.Player);
+        Managers.Camera.UpdateCameraPos(Defines.CameraType.Main);
     }
 
     void NewLoadObject()
