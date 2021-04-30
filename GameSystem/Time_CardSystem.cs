@@ -7,7 +7,7 @@ public class Time_CardSystem : MonoBehaviour
     int m_leftCardTime = 0;
     int[] m_FixedcardTime = new int[(int)Defines.CardTimeState.Count]
     {
-        5,4,3,2
+        10,5,5,5
     };
     Defines.CardTimeState m_cardTimeState;
 

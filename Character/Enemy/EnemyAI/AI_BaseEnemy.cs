@@ -41,6 +41,9 @@ public abstract class AI_BaseEnemy : MonoBehaviour
             return;
         }
 
+        Vector3 dir = Managers.Object.Player.position - transform.position;
+        m_controller.RotateCharacter(dir);
+
         Behavior();
         m_nextBehaviorTurn = m_defaultBehaviorTurn;
     }

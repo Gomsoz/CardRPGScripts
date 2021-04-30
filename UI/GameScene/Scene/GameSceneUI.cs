@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.EventSystems;
 
 public class GameSceneUI : UI_Scene
 {
@@ -25,13 +26,21 @@ public class GameSceneUI : UI_Scene
         Treasure_3,
     }
 
+    enum Btns
+    {
+        Btn_Save,
+    }
+
     private void Start()
     {
         Bind<Text>(typeof(Texts));
         Bind<Slider>(typeof(Sliders));
         Bind<Image>(typeof(Images));
+        Bind<Button>(typeof(Btns));
 
         GameManager.GameMgr.TimeEvent += ChangeCardTimeText;
+
+        AddUIHandler(Get<Button>((int)Btns.Btn_Save).gameObject, ClickSaveBtn);
     }
 
     public void ChangeCardTimeText(int time)
@@ -56,8 +65,16 @@ public class GameSceneUI : UI_Scene
         Debug.Log(percentage);
     }
 
+    public void ClickSaveBtn(PointerEventData evt)
+    {
+        GameManager.GameMgr.GamePause();
+        Managers.UI.ShowPopupUI<UI_Save>(Defines.SceneType.GameScene);
+    }
+
     public void ChnageTreasureImage(Sprite image, int idx)
     {
 
     }
+
+    
 }

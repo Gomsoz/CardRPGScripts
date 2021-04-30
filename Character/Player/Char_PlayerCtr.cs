@@ -52,9 +52,7 @@ public class Char_PlayerCtr : Char_BaseCtr
     {
         m_animator.SetInteger("State", (int)Defines.CharacterState.Walk);
         
-        base.CharacterMove(pos);
-
-        Managers.Camera.UpdateCameraPos(Defines.CameraType.Main);
+        base.CharacterMove(pos);   
     }
 
     public void AddCoin(int coin)

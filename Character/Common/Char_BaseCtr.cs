@@ -62,10 +62,7 @@ public abstract class Char_BaseCtr : MonoBehaviour, InterfaceClass.IPosition
         Vector3 targetPos = Managers.Board.BoardPosToWorldPos(pos) + new Vector2(0, 1);
         Vector3 dir = targetPos - transform.position;
 
-        if(dir.x > 0)
-            transform.rotation = Quaternion.Euler(0, 180, 0);
-        else
-            transform.rotation = Quaternion.Euler(0, 0, 0);
+        RotateCharacter(dir);
 
         while (dir.magnitude > 0.1f)
         {
@@ -73,11 +70,22 @@ public abstract class Char_BaseCtr : MonoBehaviour, InterfaceClass.IPosition
             dir = targetPos - transform.position;
             yield return null;
             float moveDist = Mathf.Clamp(m_speed * Time.deltaTime, 0, dir.magnitude);
-            transform.position += dir.normalized * moveDist;           
+            transform.position += dir.normalized * moveDist;
+
+            if(transform.tag == "Player")
+                Managers.Camera.UpdateCameraPos(Defines.CameraType.Main);
         }
 
         SetPosition(pos);
         m_animator.SetInteger("State", (int)Defines.CharacterState.Idle);
+    }
+
+    public void RotateCharacter(Vector3 dir)
+    {
+        if (dir.x > 0)
+            transform.rotation = Quaternion.Euler(0, 180, 0);
+        else
+            transform.rotation = Quaternion.Euler(0, 0, 0);
     }
 
     public abstract void AttackOtherCharacter(Transform other);
