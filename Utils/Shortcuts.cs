@@ -4,12 +4,12 @@ using UnityEngine;
 
 public abstract class Shortcuts
 {
+    protected GameObject targetUI;
     public abstract void Execute();
 }
 
 public class Command_CharacterProfile : Shortcuts
 {
-    GameObject targetUI;
     public override void Execute()
     {
         if(targetUI == null)
@@ -24,7 +24,6 @@ public class Command_CharacterProfile : Shortcuts
 
 public class Command_Inventory : Shortcuts
 {
-    GameObject targetUI;
     public override void Execute()
     {
         if (targetUI == null)
@@ -39,7 +38,6 @@ public class Command_Inventory : Shortcuts
 
 public class Command_QuestInvenory : Shortcuts
 {
-    GameObject targetUI;
     public override void Execute()
     {
         if (targetUI == null)

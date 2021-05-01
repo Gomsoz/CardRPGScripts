@@ -14,7 +14,7 @@ public class InputManager
 
     public void OnUpdate()
     {
-        if (Input.anyKey == true)
+        if (Input.anyKeyDown == true)
         {
             ChckUIShortcuts();
         }
@@ -34,6 +34,7 @@ public class InputManager
         if (shortcut == null)
             return;
 
+        Debug.Log(shortcut);
         shortcut.Execute();
     }
 }
