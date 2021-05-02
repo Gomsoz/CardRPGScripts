@@ -45,7 +45,7 @@ public abstract class Card_SlotBehavior
 
     public void FlipTheCard(int idx)
     {      
-        Managers.UI.GetSceneUI<GameSceneUI>().ChangeDefaultCardImage(m_slotType, m_cardIdx);
+        Managers.UI.GetSceneUI<GameSceneUI>().ChangeDefaultCardImage(m_slotType, idx);
 
         m_cardList[idx] = null;
         m_isEmptyCard[idx] = false;
