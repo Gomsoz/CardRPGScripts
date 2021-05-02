@@ -22,6 +22,7 @@ public class Scene_Game : Scene_Base
         base.Init();
 
         //LoadQuest();     
+        Managers.Object.Init();
         Managers.Object.DyingEnemyEvent += SpawnEnemyConstantly;
 
         if (GameManager.GameMgr.IsLoadData == false)

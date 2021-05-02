@@ -4,10 +4,8 @@ using UnityEngine;
 
 public class Card_Move : Card_Base
 {
-    protected override void Init()
+    public override void SetCardInfo()
     {
-        base.Init();
-
         CardMana = 5;
     }
     public override void Used()

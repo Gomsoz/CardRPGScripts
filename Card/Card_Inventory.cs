@@ -39,6 +39,7 @@ public class Card_Inventory : MonoBehaviour
 
     public void SaveToCardList(Transform card)
     {
+        card.GetComponent<Card_Base>().SetCardInfo();
         m_listOfCardsWhohave.Add(card);
         m_playerDeck.Enqueue(card);
         ShufflePlayerDeck();

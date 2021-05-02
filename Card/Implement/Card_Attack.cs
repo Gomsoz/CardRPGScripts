@@ -4,10 +4,8 @@ using UnityEngine;
 
 public class Card_Attack : Card_Base
 {
-    protected override void Init()
+    public override void SetCardInfo()
     {
-        base.Init();
-
         CardMana = 10;
     }
 

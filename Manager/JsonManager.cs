@@ -30,6 +30,13 @@ public class JsonManager
 
         savedata[$"isSave_{m_saveSlotIdx}"] = true;
         savedata[$"PlayerData_{m_saveSlotIdx}"] = JToken.FromObject(playerData);
+
+        Char_CommonStats DefaultStat = Managers.Object.Player.GetComponent<Char_PlayerCtr>().DefaultStats;
+        savedata[$"DefaultStat_{m_saveSlotIdx}"] = JToken.FromObject(DefaultStat);
+
+        Char_CommonStats AdditionalStat = Managers.Object.Player.GetComponent<Char_PlayerCtr>().AdditionalStats;
+        savedata[$"AdditionalStat_{m_saveSlotIdx}"] = JToken.FromObject(AdditionalStat);
+
         savedata[$"PlayerPos_{m_saveSlotIdx}"] = JToken.FromObject(Managers.Object.Player.GetComponent<Char_PlayerCtr>().Position);
 
         loaddata.Merge(savedata);
@@ -89,11 +96,13 @@ public class JsonManager
         string loadString = File.ReadAllText("Assets/Resources/Data/PlayerData.json");
         JObject loaddata = JObject.Parse(loadString);
 
-        Char_PlayerStats stats = JsonConvert.DeserializeObject<Char_PlayerStats>(loaddata[$"PlayerData_{idx}"].ToString());
+        Char_PlayerStats playerStats = JsonConvert.DeserializeObject<Char_PlayerStats>(loaddata[$"PlayerData_{idx}"].ToString());
+        Char_CommonStats defaultStats = JsonConvert.DeserializeObject<Char_PlayerStats>(loaddata[$"DefaultStat_{idx}"].ToString());
+        Char_CommonStats additionalStats = JsonConvert.DeserializeObject<Char_PlayerStats>(loaddata[$"AdditionalStat_{idx}"].ToString());
         Defines.Position pos = JsonConvert.DeserializeObject<Defines.Position>(loaddata[$"PlayerPos_{idx}"].ToString());
 
         Transform player = Managers.Object.SpawnObjectOnBoard(Defines.ObjectType.Player, "Player", pos);
-        player.GetComponent<Char_PlayerCtr>().PlayerStats = stats;
+        player.GetComponent<Char_PlayerCtr>().SetPlayerData(playerStats, defaultStats, additionalStats);
     }
 
     public void LoadDataAndSpawnEnemy(int idx)

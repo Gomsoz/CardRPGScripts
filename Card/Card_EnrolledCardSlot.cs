@@ -24,8 +24,8 @@ public class Card_EnrolledCardSlot : Card_SlotBehavior
             return;
         }
 
-        Managers.Object.Player.GetComponent<Char_PlayerCtr>().ModifyDefaultCharacterStats(StatType.MP, _cardMP);
-        Debug.Log($"현재 플레이어 마나 : {_playerMP}");
+        Managers.Object.Player.GetComponent<Char_PlayerCtr>().ModifyDefaultCharacterStats(StatType.MP, -_cardMP);
+        Debug.Log($"현재 플레이어 마나 : {Managers.Object.Player.GetComponent<Char_PlayerCtr>().PlayerStats.MP}");
 
         base.ChangeCard(card);
     }

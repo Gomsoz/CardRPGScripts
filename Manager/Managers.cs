@@ -62,7 +62,7 @@ public class Managers : MonoBehaviour
 
     void ManagersInit()
     {
-        _object.Init();
+        
     }
 
     public void Savedata()

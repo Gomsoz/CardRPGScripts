@@ -10,6 +10,7 @@ public enum StatType
     MP,
     Attack,
     Armor,
+    Count,
 }
 
 public abstract class Char_BaseCtr : MonoBehaviour, InterfaceClass.IPosition

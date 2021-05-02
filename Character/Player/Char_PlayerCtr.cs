@@ -6,14 +6,16 @@ using Assets.FantasyMonsters.Scripts;
 public class Char_PlayerCtr : Char_BaseCtr
 {
     Char_PlayerStats m_playerStats;
-    public Char_PlayerStats PlayerStats { get { return m_playerStats; } set { m_playerStats = value; } }
+    public Char_PlayerStats PlayerStats { get { return m_playerStats; } }
 
-    Char_CommonStats m_defaultStats = new Char_CommonStats();
+    Char_CommonStats m_defaultStats;
     Char_CommonStats m_additionalStats = new Char_CommonStats();
+    public Char_CommonStats DefaultStats { get { return m_defaultStats; } }
+    public Char_CommonStats AdditionalStats { get { return m_additionalStats; } }
 
     private void Awake()
     {
-        m_playerStats = new Char_PlayerStats
+        m_playerStats = new Char_PlayerStats()
         {
             HP = 10,
             MaxHP = 10,
@@ -25,8 +27,34 @@ public class Char_PlayerCtr : Char_BaseCtr
             NextExp = 10,
         };
 
+        m_defaultStats = new Char_CommonStats()
+        {
+            HP = 10,
+            MaxHP = 10,
+            MP = 50,
+            MaxMP = 50,
+            AttackDamage = 10,
+        };
+
+        /*for (int i = 0; i < (int)StatType.Count; i++)
+        {
+            SetCharacterStats((StatType)i);
+        }*/
+
         m_animator = gameObject.GetComponent<Animator>();
         Managers.UI.GetSceneUI<UI_CharacterProfile>().UpdateText_Stats(m_playerStats);
+    }
+
+    public void SetPlayerData(Char_PlayerStats playerStats, Char_CommonStats defaultStats, Char_CommonStats additionalStats)
+    {
+        m_playerStats = playerStats;
+        m_defaultStats = defaultStats;
+        m_additionalStats = additionalStats;
+    }
+
+    public void LoadPlayerData()
+    {
+
     }
 
     public override void AttackOtherCharacter(Transform other)
