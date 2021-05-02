@@ -15,6 +15,7 @@ public class Managers : MonoBehaviour
     static ResourcesManager _resources = new ResourcesManager();
     static SceneManagerEx _scene = new SceneManagerEx();
     static QuestManager _quest = new QuestManager();
+    static Card_SlotManager _slot;
 
     public static Managers Instance { get { return _instance; } }
     public static BoardManager Board { get { return _board; } }
@@ -26,6 +27,8 @@ public class Managers : MonoBehaviour
     public static ResourcesManager Resources { get { return _resources; } }
     public static SceneManagerEx Scene { get { return _scene; } }
     public static QuestManager Quest { get { return _quest; } }
+
+    public static Card_SlotManager Slot;
     #endregion
 
     public Transform MainCamera;
@@ -34,7 +37,7 @@ public class Managers : MonoBehaviour
     private void Awake()
     {
         Singleton();
-        ManagersInit();
+        ManagersInit(); 
     }
 
     private void Update()

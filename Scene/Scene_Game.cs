@@ -12,6 +12,8 @@ public class Scene_Game : Scene_Base
         sceneType = Defines.SceneType.GameScene;
         Managers.Camera.BindCamera(Defines.CameraType.Main);
 
+        Managers.Slot = GameObject.Find("Card_SlotManager").GetComponent<Card_SlotManager>();
+
         LoadUI();
     }
 
@@ -21,9 +23,6 @@ public class Scene_Game : Scene_Base
 
         //LoadQuest();     
         Managers.Object.DyingEnemyEvent += SpawnEnemyConstantly;
-
-        GameObject slot = Managers.Resources.Instantiate("Prefabs/Object/Card/CardSlot");
-        slot.transform.SetParent(GameObject.Find("Main Camera").transform);
 
         if (GameManager.GameMgr.IsLoadData == false)
             NewLoadObject();

@@ -31,12 +31,18 @@ public class GameSceneUI : UI_Scene
         Btn_Save,
     }
 
-    private void Start()
+    enum Panel
+    {
+        UI_CardPanel,
+    }
+
+    private void Awake()
     {
         Bind<Text>(typeof(Texts));
         Bind<Slider>(typeof(Sliders));
         Bind<Image>(typeof(Images));
         Bind<Button>(typeof(Btns));
+        Bind<Transform>(typeof(Panel));
 
         GameManager.GameMgr.TimeEvent += ChangeCardTimeText;
 
@@ -69,6 +75,32 @@ public class GameSceneUI : UI_Scene
     {
         GameManager.GameMgr.GamePause();
         Managers.UI.ShowPopupUI<UI_Save>(Defines.SceneType.GameScene);
+    }
+
+    public void ChangeCardImage(Defines.CardType type, int idx, Sprite image)
+    {
+        switch (type)
+        {
+            case Defines.CardType.Drawed:
+                Get<Transform>((int)Panel.UI_CardPanel).GetComponent<UI_CardPanel>().ChangeDrawedCardImage(idx, image);
+                break;
+            case Defines.CardType.Enrolled:
+                Get<Transform>((int)Panel.UI_CardPanel).GetComponent<UI_CardPanel>().ChangeEnrolledCardImage(idx, image);
+                break;
+        }
+    }
+
+    public void ChangeDefaultCardImage(Defines.CardType type, int idx)
+    {
+        switch (type)
+        {
+            case Defines.CardType.Drawed:
+                Get<Transform>((int)Panel.UI_CardPanel).GetComponent<UI_CardPanel>().FlipTheDrawedCard(idx);
+                break;
+            case Defines.CardType.Enrolled:
+                Get<Transform>((int)Panel.UI_CardPanel).GetComponent<UI_CardPanel>().FlipTheEnrolledCard(idx);
+                break;
+        }
     }
 
     public void ChnageTreasureImage(Sprite image, int idx)

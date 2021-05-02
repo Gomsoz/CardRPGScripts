@@ -5,18 +5,18 @@ using System;
 
 public class Card_SlotManager : MonoBehaviour
 {
-    public Card_DrawedCardSlot m_drawedCardSlot;
-    public Card_EnrolledCardSlot m_enrolledCardSlot;
+    Card_DrawedCardSlot m_drawedCardSlot;
+    Card_EnrolledCardSlot m_enrolledCardSlot;
 
     Card_Inventory m_playerCardInventory;
 
     private void Awake()
     {
-        m_drawedCardSlot = Utils.FindChild<Transform>(gameObject,"DrawedCardSlot",true).GetComponent<Card_DrawedCardSlot>();
-        m_drawedCardSlot.SetSlotType();
+        m_drawedCardSlot = new Card_DrawedCardSlot();
+        m_drawedCardSlot.CardSlotInit();
 
-        m_enrolledCardSlot = Utils.FindChild<Transform>(gameObject, "EnrolledCardSlot",true).GetComponent<Card_EnrolledCardSlot>();
-        m_enrolledCardSlot.SetSlotType();
+        m_enrolledCardSlot = new Card_EnrolledCardSlot();
+        m_enrolledCardSlot.CardSlotInit();
 
         m_playerCardInventory = transform.GetComponent<Card_Inventory>();
         GameManager.GameMgr.CardTimeState += CardTimeListener;
@@ -27,14 +27,6 @@ public class Card_SlotManager : MonoBehaviour
     {
         GameManager.TimeCardSystem.StartCardTime(Defines.CardTimeState.SelectingCard);
         DrawAllCard();
-    }
-
-    private void Update()
-    {
-        if (Input.GetMouseButtonDown(0))
-        {
-            SelectTheCard();
-        }
     }
 
     public void CardTimeListener(Defines.CardTimeState state)
@@ -75,7 +67,7 @@ public class Card_SlotManager : MonoBehaviour
         }
     }
 
-    void SelectTheCard()
+    /*public void SelectTheCard(Transform slot)
     {
         Vector2 mousePoint = Camera.main.ScreenToWorldPoint(Input.mousePosition);
 
@@ -91,5 +83,11 @@ public class Card_SlotManager : MonoBehaviour
             if(m_enrolledCardSlot.CheckAndChangeCard(hit.collider.transform))
                 m_drawedCardSlot.FlipTheCard(cardIdx);
         }
+    }*/
+
+    public void SelectTheCard(CardSlotInfo slot)
+    {
+        if (m_enrolledCardSlot.CheckAndChangeCard(m_drawedCardSlot.CardList[slot.SlotIdx].transform))
+            m_drawedCardSlot.FlipTheCard(slot.SlotIdx);
     }
 }

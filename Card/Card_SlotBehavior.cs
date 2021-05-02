@@ -2,11 +2,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Card_SlotBehavior : MonoBehaviour
+public abstract class Card_SlotBehavior
 {
-    [SerializeField]
-    protected Transform[] m_emptyCardSlots;
-    protected Transform[] m_cardList;
+    protected Card_Base[] m_cardList;
+    public Card_Base[] CardList { get { return m_cardList; } }
+
     protected bool[] m_isEmptyCard;
 
     protected Defines.CardType m_slotType;
@@ -17,26 +17,15 @@ public class Card_SlotBehavior : MonoBehaviour
     protected int m_slotCnt;
     public int SlotCnt { get { return m_slotCnt; } }
 
-    private void Awake()
+    public void CardSlotInit()
     {
-        m_slotCnt = gameObject.transform.childCount;
-        m_emptyCardSlots = new Transform[m_slotCnt];
-        m_cardList = new Transform[m_slotCnt];
+        AwakeInit();
+
+        m_cardList = new Card_Base[m_slotCnt];
         m_isEmptyCard = new bool[m_slotCnt];
-
-        for(int i = 0; i < m_slotCnt; i++)
-        {
-            m_emptyCardSlots[i] = Utils.FindChild<Transform>(gameObject, $"CardSlot_{i}", true);
-        }
-    }
-    public virtual void SetSlotType()
-    {
     }
 
-    public Transform GetCardInList(int idx)
-    {
-        return m_cardList[idx]; 
-    }
+    protected abstract void AwakeInit();
 
     public bool CheckAndChangeCard(Transform card)
     {
@@ -48,15 +37,19 @@ public class Card_SlotBehavior : MonoBehaviour
 
     protected virtual void ChangeCard(Transform card)
     {
+        m_cardList[m_cardIdx] = card.GetComponent<Card_Base>();
         m_isEmptyCard[m_cardIdx] = true;
-        m_emptyCardSlots[m_cardIdx].rotation = Quaternion.Euler(new Vector3(0, 90, 0));
+        Managers.UI.GetSceneUI<GameSceneUI>().ChangeCardImage(m_slotType, m_cardIdx, card.GetComponent<SpriteRenderer>().sprite);
+        //m_emptyCardSlots[m_cardIdx].rotation = Quaternion.Euler(new Vector3(0, 90, 0));
     }
 
     public void FlipTheCard(int idx)
     {      
+        Managers.UI.GetSceneUI<GameSceneUI>().ChangeDefaultCardImage(m_slotType, m_cardIdx);
+
         m_cardList[idx] = null;
         m_isEmptyCard[idx] = false;
-        m_emptyCardSlots[idx].rotation = Quaternion.Euler(new Vector3(0, 0, 0));
+        //m_emptyCardSlots[idx].rotation = Quaternion.Euler(new Vector3(0, 0, 0));
     }
     
     bool IsEmptySlot()

@@ -4,8 +4,10 @@ using UnityEngine;
 
 public class Card_EnrolledCardSlot : Card_SlotBehavior
 {
-    public override void SetSlotType()
+
+    protected override void AwakeInit()
     {
+        m_slotCnt = 3;
         m_slotType = Defines.CardType.Enrolled;
     }
 
@@ -26,11 +28,6 @@ public class Card_EnrolledCardSlot : Card_SlotBehavior
         Debug.Log($"현재 플레이어 마나 : {_playerMP}");
 
         base.ChangeCard(card);
-
-        m_cardList[m_cardIdx] = card;
-        card.transform.position = m_emptyCardSlots[m_cardIdx].position;
-        card.localScale = new Vector3(0.04f, 0.04f, 1);
-        card.GetComponent<Card_Base>().SetCardInfo(m_cardIdx, m_slotType);
     }
 
     public void UseEnrolledCard(int idx)
@@ -39,8 +36,6 @@ public class Card_EnrolledCardSlot : Card_SlotBehavior
             return;
         m_cardList[idx].GetComponent<Card_Base>().Used();
 
-        GameObject tempGo = m_cardList[idx].gameObject;
         FlipTheCard(idx);
-        GameObject.Destroy(tempGo);
     }
 }
