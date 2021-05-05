@@ -105,6 +105,7 @@ public class Char_PlayerCtr : Char_BaseCtr
             m_playerStats.CurExp -= m_playerStats.NextExp;
             m_playerStats.Level++;
             Managers.UI.GetSceneUI<GameSceneUI>().ChangeLevelText(m_playerStats.Level);
+            Managers.UI.GetSceneUI<UI_CharacterProfile>().UpdateText_Stats(m_playerStats);
             Managers.UI.GetSceneUI<UI_CharacterProfile>().IncreaseLevelupPoint();
         }        
     }

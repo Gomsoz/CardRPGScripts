@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class AI_PirateBoar : AI_BaseEnemy
 {
+    [SerializeField]
+    Transform m_cannon;
     GameObject m_cannonBall;
 
     protected override void Init()
@@ -26,6 +28,6 @@ public class AI_PirateBoar : AI_BaseEnemy
             return;
         }
 
-        GameObject.Instantiate(m_cannonBall);
+        GameObject.Instantiate(m_cannonBall, m_cannon.transform);
     }
 }

@@ -29,7 +29,6 @@ public class UI_Status : UI_Scene
             textTime = 0;
         else
             StartCoroutine(StartDamageText(textUI));
-
     }
 
     IEnumerator StartDamageText(GameObject textUI)
