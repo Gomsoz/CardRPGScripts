@@ -40,7 +40,6 @@ public abstract class Card_SlotBehavior
         m_cardList[m_cardIdx] = card.GetComponent<Card_Base>();
         m_isEmptyCard[m_cardIdx] = true;
         Managers.UI.GetSceneUI<GameSceneUI>().ChangeCardImage(m_slotType, m_cardIdx, card.GetComponent<SpriteRenderer>().sprite);
-        //m_emptyCardSlots[m_cardIdx].rotation = Quaternion.Euler(new Vector3(0, 90, 0));
     }
 
     public void FlipTheCard(int idx)
@@ -49,7 +48,6 @@ public abstract class Card_SlotBehavior
 
         m_cardList[idx] = null;
         m_isEmptyCard[idx] = false;
-        //m_emptyCardSlots[idx].rotation = Quaternion.Euler(new Vector3(0, 0, 0));
     }
     
     bool IsEmptySlot()

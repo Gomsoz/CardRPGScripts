@@ -25,10 +25,6 @@ public class UI_Inventory : UI_Scene
         Bind<Transform>(typeof(GameObjects));
         m_itemHolder = new GameObject { name = "ItemHolder" }.transform;
         Transform gridPanel = Get<Transform>((int)GameObjects.Grid_ItemSlot);
-        /*foreach(Transform tr in gridPanel.transform)
-        {
-            Destroy(tr.gameObject);
-        }*/
 
         for (int i = 0; i < gridPanel.childCount; i++)
         {

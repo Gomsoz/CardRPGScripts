@@ -50,13 +50,6 @@ public class Invenotry_ItemInfo : UI_Base
             Get<Button>((int)Buttons.UseButton).gameObject.SetActive(false);
     }
 
-    public void ChangeNoneItemInfo()
-    {
-        Get<Text>((int)Texts.NameText).text = "";
-        Get<Text>((int)Texts.ExplainText).text = "";
-        Get<Button>((int)Buttons.UseButton).gameObject.SetActive(false);
-    }
-
     public void ClickUseButton(PointerEventData evt)
     {
         Debug.Log(evt);
@@ -66,4 +59,12 @@ public class Invenotry_ItemInfo : UI_Base
         m_Item.Use();
         Managers.UI.GetSceneUI<UI_Inventory>().DestroyItem();
     }
+
+    public void ChangeNoneItemInfo()
+    {
+        Get<Text>((int)Texts.NameText).text = "";
+        Get<Text>((int)Texts.ExplainText).text = "";
+        Get<Button>((int)Buttons.UseButton).gameObject.SetActive(false);
+    }
+
 }

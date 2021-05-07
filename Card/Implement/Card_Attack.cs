@@ -20,7 +20,6 @@ public class Card_Attack : Card_Base
         if (enemy == null)
             return;
 
-        //enemy.GetComponent<Char_BaseCtr>().UnderAttackedCharacter(m_usingPlayer, m_usingPlayer.GetComponent<Char_BaseCtr>().CommonStats.AttackDamage);
         Managers.Object.Player.GetComponent<Char_BaseCtr>().AttackOtherCharacter(enemy);
     }
 }

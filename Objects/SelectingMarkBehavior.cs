@@ -64,8 +64,6 @@ public class SelectingMarkBehavior : MonoBehaviour, InterfaceClass.IPosition
         }
     }
 
-
-
     private void OnMouseDown()
     {
         GameManager.MarkPoint.CallBackMarkPoint(Position);

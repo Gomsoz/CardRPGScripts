@@ -30,6 +30,16 @@ public class Quest_Hunt : Quest_Base
         Managers.Object.DyingEnemyEvent -= DyingEnemyEvtListner;
     }
 
+    public override void Random(QuestType type)
+    {
+        m_questType = type;
+        m_huntingTarget = m_randomHuntingTarget[UnityEngine.Random.Range(0, m_randomHuntingTarget.Length)];
+        m_goalHuntingCnt = UnityEngine.Random.Range(1, m_randomHuntingCnt);
+
+        Init();
+        Managers.Quest.AddQuest(type, this);
+    }
+
     public override void Init()
     {
         m_context = $"{m_huntingTarget} 을/를 {m_goalHuntingCnt}마리 잡으세요 !";
@@ -40,15 +50,6 @@ public class Quest_Hunt : Quest_Base
         Managers.UI.GetSceneUI<UI_QuestScene>().ChangeQuestProgressText(m_questType, $"{m_huntingTarget} 사냥 퀘스트 : {m_curHuntingCnt}/{m_goalHuntingCnt}");
     }
 
-    public override void Random(QuestType type)
-    {
-        m_questType = type;
-        m_huntingTarget = m_randomHuntingTarget[UnityEngine.Random.Range(0, m_randomHuntingTarget.Length)];
-        m_goalHuntingCnt = UnityEngine.Random.Range(1, m_randomHuntingCnt);
-
-        Init();
-        Managers.Quest.AddQuest(type, this);
-    }
 
     public void DyingEnemyEvtListner(Char_EnemyStats stat)
     {

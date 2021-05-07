@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class Item_HpPotion : Item_Base
 {   
-
     public override void Use()
     {
         Char_PlayerCtr player = Managers.Object.Player.GetComponent<Char_PlayerCtr>();

@@ -48,10 +48,6 @@ public class MarkPoint : MonoBehaviour
         targetPos.x = targetPos.x >= 0 ? targetPos.x : -targetPos.x;
         targetPos.y = targetPos.y >= 0 ? targetPos.y : -targetPos.y;
 
-        //Debug.Log($"MousePos : {mousePos}");
-        //Debug.Log($"playerPos : {playerPos}");
-        //Debug.Log($"targetPos : {targetPos}");
-
         if (targetPos.x >= targetPos.y) // 좌, 우
         {
             if (playerPos.x - mousePos.x >= 0)
