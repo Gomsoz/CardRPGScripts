@@ -118,7 +118,7 @@ public class JsonManager
             Char_EnemyStats stats = JsonConvert.DeserializeObject<Char_EnemyStats>(loaddata[$"EnemyData_{idx}"][i].ToString());
             Defines.Position pos = JsonConvert.DeserializeObject<Defines.Position>(loaddata[$"EnemyPos_{idx}"][i].ToString());
 
-            Transform enemy = Managers.Object.SpawnObjectOnBoard(Defines.ObjectType.Enemy, stats.Name, pos);
+            Transform enemy = Managers.Object.SpawnEnemy(stats.Name, pos);
             enemy.GetComponent<Char_EnemyCtr>().m_enemyStats = stats;
         }      
     }

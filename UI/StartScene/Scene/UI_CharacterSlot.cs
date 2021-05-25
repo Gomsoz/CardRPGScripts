@@ -32,7 +32,6 @@ public class UI_CharacterSlot : UI_Base
         AddUIHandler(Get<Button>((int)Btns.SelectBtn).gameObject, CancelBtn);
 
         SetSaveData();
-        Debug.Log("Init");
     }
 
     void SetSaveData()

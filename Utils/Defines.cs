@@ -102,7 +102,7 @@ public class Defines
         Attack,
         Armor,
     }
-    public enum EnemyType
+    public enum EnemyGradeType
     {
         Normal,
         Elite,

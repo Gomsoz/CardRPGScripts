@@ -49,10 +49,10 @@ public class Scene_Game : Scene_Base
         Managers.Camera.UpdateCameraPos(Defines.CameraType.Main);
 
         pos = new Defines.Position(2, 3);
-        Managers.Object.SpawnObjectOnBoard(Defines.ObjectType.Enemy, "Pig", pos);
+        Managers.Object.SpawnEnemy("Pig", pos);
 
         pos = new Defines.Position(5, 3);
-        Managers.Object.SpawnObjectOnBoard(Defines.ObjectType.Enemy, "PirateBoar", pos);
+        Managers.Object.SpawnEnemy("PirateBoar", pos);
     }
 
     void LoadUI()

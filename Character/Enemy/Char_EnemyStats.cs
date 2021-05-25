@@ -9,5 +9,5 @@ public class Char_EnemyStats : Char_CommonStats
     public int Drop_Coin;
     public int Drop_Exp;
 
-    public Defines.EnemyType enemyType;
+    public Defines.EnemyGradeType enemyType;
 }

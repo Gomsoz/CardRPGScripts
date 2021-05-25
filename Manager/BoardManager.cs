@@ -36,15 +36,8 @@ public class BoardManager
 
     public bool ChkAndAddObjOnBoard(Defines.Position pos, Transform obj, bool overlap = false)
     {
-        // 해당 좌표에 오브젝트가 있는지 확인
-        if (m_objectOnBoard[(int)pos.posX, (int)pos.posY] != null)
-        {
-            Debug.Log($"The Object is existed ({(int)pos.posX}, {(int)pos.posY})");
-            return false;
-        }
-
-        // 보드의 경계 검사
-        if (ChkBoundary(pos) == false)
+        // 보드의 경계 검사, 해당 좌표에 오브젝트가 있는지 확인
+        if (ChkBoundary(pos) == false || ChkObjOnBoard(pos) == false)
             return false;
 
         obj.position = m_tilesOnBoard[(int)pos.posX, (int)pos.posY].position + new Vector3(0, 1, 0);
@@ -69,10 +62,7 @@ public class BoardManager
 
     public bool ChkMoveObjOnBoard(Transform charater, Defines.Position pos)
     {
-        if (charater == null)
-            return false;
-
-        if (ChkBoundary(pos) == false)
+        if (charater == null || ChkBoundary(pos) == false)
             return false;
 
         if(m_objectOnBoard[(int)pos.posX, (int)pos.posY] != null)
@@ -95,6 +85,17 @@ public class BoardManager
             return null;
 
         return m_objectOnBoard[(int)pos.posX, (int)pos.posY];
+    }
+
+    public bool ChkObjOnBoard(Defines.Position pos)
+    {
+        if (m_objectOnBoard[(int)pos.posX, (int)pos.posY] != null)
+        {
+            Debug.Log($"The Object is existed ({(int)pos.posX}, {(int)pos.posY})");
+            return false;
+        }
+
+        return true;
     }
 
     public bool ChkBoundary(Defines.Position pos)
