@@ -123,6 +123,41 @@ public class JsonManager
         }      
     }
 
+    public bool LoadBoardData(string code, out Board_Base board)
+    {
+        Debug.Log("Load Data... : Start Load the Board Data");
+        string loadString = File.ReadAllText("Assets/Resources/Data/MapData.json");
+
+        if (loadString == null)
+        {
+            board = null;
+            return false;
+        }
+
+        JObject loaddata = JObject.Parse(loadString); // JObject 파싱 
+
+        JArray loadarray = (JArray)loaddata[code]["Tiles"];
+        int[,] tileIndexs = new int[(int)loaddata[code]["Width"] + 1, (int)loaddata[code]["Height"] + 1];
+
+        int dataCnt = 0;
+        for (int i = 1; i < (int)loaddata[code]["Width"] + 1; i++)
+        {
+            for (int j = 1; j < (int)loaddata[code]["Height"] + 1; j++)
+            {
+                tileIndexs[i, j] = (int)loadarray[dataCnt];
+                dataCnt++;
+            }
+        }
+
+        board = Board_Base.Builder()
+                .SetWidth((int)loaddata[code]["Width"])
+                .SetHeight((int)loaddata[code]["Height"])
+                .SetTileIndexs(tileIndexs)
+                .BoardBuild();
+            
+        return true;
+    }
+
     /*public void SaveScore(int level, int score)
     {
         JObject saveData = new JObject();

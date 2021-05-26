@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class BoardManager
 {
+    Dictionary<string, Board_Base> m_boards = new Dictionary<string, Board_Base>();
+    Board_Base m_curBoard;
+
     SetupMapTiles c_setupMapTils = new SetupMapTiles();
 
     int m_boardWidth;
@@ -19,19 +22,35 @@ public class BoardManager
     public void AwakeInit()
     {
         c_setupMapTils.AwakeInit();
-        SetBoard(10, 10);
+        LoadBoard("G1000");
     }
 
-    public void SetBoard(int width, int height)
+    public void LoadBoard(string mapCode)
     {
-        m_boardWidth = width;
-        m_boardHeight = height;
+        // 저장된 보드 데이터 확인
+        if (m_boards.TryGetValue(mapCode, out m_curBoard) == false)
+        {
+            // 저장된 보드가 없으므로 보드 데이터를 불러옴.
+            if (Managers.Json.LoadBoardData(mapCode, out m_curBoard) == false)
+            {
+                Debug.LogError($"Faild to Load Board : {mapCode}");
+                return;
+            }
+            m_boards.Add(mapCode, m_curBoard);
+        }
+
+        SetBoard();
+    }
+
+    void SetBoard()
+    {
+        m_boardWidth = m_curBoard.BoardWidth;
+        m_boardHeight = m_curBoard.BoardHeight;
 
         m_tilesOnBoard = new Transform[m_boardWidth, m_boardHeight];
         m_objectOnBoard = new Transform[m_boardWidth, m_boardHeight];
 
-
-        c_setupMapTils.ConstructTiles(m_boardWidth, m_boardHeight, out m_tilesOnBoard);
+        m_tilesOnBoard =  c_setupMapTils.ConstructTiles(m_curBoard);
     }
 
     public bool ChkAndAddObjOnBoard(Defines.Position pos, Transform obj, bool overlap = false)
@@ -42,7 +61,7 @@ public class BoardManager
 
         obj.position = m_tilesOnBoard[(int)pos.posX, (int)pos.posY].position + new Vector3(0, 1, 0);
         m_objectOnBoard[(int)pos.posX, (int)pos.posY] = obj;
-        return true;    
+        return true;
     }
 
     public bool ChkAndRemoveObjOnBoard(Defines.Position pos)

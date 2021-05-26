@@ -35,22 +35,22 @@ public class SetupMapTiles
         }
     }
 
-    public void ConstructTiles(int x, int y, out Transform[,] board)
+    public Transform[,] ConstructTiles(Board_Base board)
     {
-        Defines.Position _startPos = new Defines.Position( (-x / 2) * m_gapBetweenTiles,  (- y / 2) * m_gapBetweenTiles);
+        Defines.Position _startPos = new Defines.Position( (-board.BoardWidth / 2) * m_gapBetweenTiles,  (-board.BoardHeight / 2) * m_gapBetweenTiles);
         string _path = $"Prefabs/Tile/Tile";
-        Transform[,] _returnBoard = new Transform[x, y];
+        Transform[,] _returnBoard = new Transform[board.BoardWidth, board.BoardHeight];
 
-        for(int i = 0; i < x; i++)
+        for(int i = 0; i < board.BoardWidth; i++)
         {
-            for(int j = 0; j < y; j++)
+            for(int j = 0; j < board.BoardHeight; j++)
             {
                 GameObject go = Managers.Resources.Instantiate(_path, m_terrainHolder);
-                go.GetComponent<SpriteRenderer>().sprite = m_terrains[UnityEngine.Random.Range(0, m_terrains.Count)];
+                go.GetComponent<SpriteRenderer>().sprite = m_terrains[board.TileIndexes[i,j]];
                 go.transform.position = new Vector2(_startPos.posX + (i * m_gapBetweenTiles), _startPos.posY + (j * m_gapBetweenTiles));
                 _returnBoard[i, j] = go.transform;
             }
         }
-        board = _returnBoard;
+        return _returnBoard;
     }
 }
