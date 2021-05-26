@@ -50,8 +50,10 @@ public class Defines
     }
     public enum SceneType
     {
-        GameScene,
+        LoadingScene,
         StartScene,
+        GameScene,
+        HouseScene,
     }
     public enum Direction
     {

@@ -6,14 +6,17 @@ using UnityEngine.SceneManagement;
 public class SceneManagerEx
 {
     public Scene_Base CurrentScene { get { return GameObject.FindObjectOfType<Scene_Base>(); } }
+    string m_nextSceneName;
+    public string NextSceneName { get { return m_nextSceneName; } }
+
     public void LoadScene(Defines.SceneType sceneType)
     {
         CurrentScene.Clear();
-        string _sceneName = System.Enum.GetName(typeof(Defines.SceneType), sceneType);
+        m_nextSceneName = System.Enum.GetName(typeof(Defines.SceneType), sceneType);
 
-        if (!_sceneName.Contains("Scene"))
-            _sceneName = $"{_sceneName}Scene";
+        if (!m_nextSceneName.Contains("Scene"))
+            m_nextSceneName = $"{m_nextSceneName}Scene";
 
-        SceneManager.LoadScene(_sceneName);
+        SceneManager.LoadScene(System.Enum.GetName(typeof(Defines.SceneType), Defines.SceneType.LoadingScene));
     }
 }
