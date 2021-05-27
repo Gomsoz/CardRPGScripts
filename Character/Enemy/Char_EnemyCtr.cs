@@ -7,7 +7,7 @@ public class Char_EnemyCtr : Char_BaseCtr
 {
     public Char_EnemyStats m_enemyStats;
 
-    private void Awake()
+    protected override void Init()
     {
         m_enemyStats = new Char_EnemyStats
         {
@@ -19,6 +19,8 @@ public class Char_EnemyCtr : Char_BaseCtr
         };
 
         m_animator = gameObject.GetComponent<Animator>();
+
+        base.Init();
     }
 
     public override void AttackOtherCharacter(Transform other)

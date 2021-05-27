@@ -34,6 +34,7 @@ public class GameManager : MonoBehaviour
             Time.timeScale = value ? 0 : 1;
         }
     }
+
     private void Awake()
     {
         Singleton();

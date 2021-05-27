@@ -38,11 +38,15 @@ public abstract class Char_BaseCtr : MonoBehaviour, InterfaceClass.IPosition
 
     private void Start()
     {
+        Init();
+    }
+
+    protected virtual void Init()
+    {
         m_anchorDamage = transform.Find("AnchorDamage");
         m_DamageText = Managers.UI.GetSceneUI<UI_Status>().InstantiateDamageUI();
         m_DamageText.transform.position = Camera.main.WorldToScreenPoint(m_anchorDamage.transform.position);
     }
-
     public void SetPosition(Defines.Position pos)
     {
         m_position = pos;

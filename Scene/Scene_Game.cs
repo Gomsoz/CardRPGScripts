@@ -14,7 +14,11 @@ public class Scene_Game : Scene_Base
 
         Managers.Slot = GameObject.Find("Card_SlotManager").GetComponent<Card_SlotManager>();
 
-        LoadUI();
+        Managers.Board.LoadBoard("G1000");
+
+        if(Managers.Instance.DontDestroyUIHolder.childCount == 0)
+            DataLoadingFirsttime();
+
     }
 
     protected override void Init()
@@ -25,11 +29,19 @@ public class Scene_Game : Scene_Base
         Managers.Object.Init();
         Managers.Object.DyingEnemyEvent += SpawnEnemyConstantly;
 
+        GameObject mark = Managers.Resources.Instantiate("Prefabs/Object/Mark/PortalMark");
+        mark.transform.position = Managers.Board.BoardPosToWorldPos(new Defines.Position(4, 3));
+
+    }
+
+    public void DataLoadingFirsttime()
+    {
         if (GameManager.GameMgr.IsLoadData == false)
             NewLoadObject();
         else
             LoadData();
 
+        LoadDontDestroyUI();
     }
 
     public void LoadData()
@@ -48,20 +60,17 @@ public class Scene_Game : Scene_Base
         Managers.Camera.SetTrackingTarget(player);
         Managers.Camera.UpdateCameraPos(Defines.CameraType.Main);
 
-        pos = new Defines.Position(2, 3);
-        Managers.Object.SpawnEnemy("Pig", pos);
-
-        pos = new Defines.Position(5, 3);
-        Managers.Object.SpawnEnemy("PirateBoar", pos);
+        Managers.Object.SpawnEnemy("Pig", new Defines.Position(2, 3));
+        Managers.Object.SpawnEnemy("PirateBoar", new Defines.Position(5, 3));
     }
 
-    void LoadUI()
+    public virtual void LoadDontDestroyUI()
     {
-        Managers.UI.ShowSceneUI<GameSceneUI>(sceneType);
-        Managers.UI.ShowSceneUI<UI_Status>(sceneType);
-        Managers.UI.ShowSceneUI<UI_CharacterProfile>(sceneType).gameObject.SetActive(false);
-        Managers.UI.ShowSceneUI<Inventory_Treasure>(sceneType);
-        Managers.UI.ShowSceneUI<UI_Inventory>(sceneType).gameObject.SetActive(false);
+        Managers.UI.DontDestroyUI<GameSceneUI>(sceneType);
+        Managers.UI.DontDestroyUI<UI_Status>(sceneType);
+        Managers.UI.DontDestroyUI<UI_CharacterProfile>(sceneType).gameObject.SetActive(false);
+        Managers.UI.DontDestroyUI<Inventory_Treasure>(sceneType);
+        Managers.UI.DontDestroyUI<UI_Inventory>(sceneType).gameObject.SetActive(false);
         Managers.UI.DisactivatePopupUI();
 
         Managers.Quest.InstantiateQuestUI();
@@ -83,5 +92,6 @@ public class Scene_Game : Scene_Base
 
     public override void Clear()
     {
+        base.Clear();
     }
 }

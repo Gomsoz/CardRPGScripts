@@ -9,7 +9,6 @@ public class Scene_Start : Scene_Base
         base.Init();
         sceneType = Defines.SceneType.StartScene;
 
-
         LoadUI();
     }
 
@@ -21,6 +20,6 @@ public class Scene_Start : Scene_Base
 
     public override void Clear()
     {
-        Managers.UI.ClearSceneUI();
+        base.Clear();
     }
 }

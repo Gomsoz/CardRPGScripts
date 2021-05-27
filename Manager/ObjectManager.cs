@@ -16,6 +16,7 @@ public class ObjectManager
         "Prefabs/Object/Player",
         "Prefabs/Object/Enemy",
         "Prefabs/Object/Item",
+        "Prefabs/Object/Mark",
     };
 
     Factory_Enemy m_enemyFactory;

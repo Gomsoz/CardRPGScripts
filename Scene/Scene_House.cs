@@ -6,13 +6,10 @@ public class Scene_House : Scene_Base
 {
     int m_houseCode;
 
-    public override void Clear()
+    protected override void Init()
     {
-        throw new System.NotImplementedException();
-    }
+        base.Init();
 
-    public void LoadData()
-    {
-
+        Managers.Board.LoadBoard("H1000");
     }
 }

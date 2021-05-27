@@ -33,6 +33,7 @@ public class Managers : MonoBehaviour
 
     public Transform MainCamera;
     public Transform tempItem;
+    public Transform DontDestroyUIHolder;
 
     private void Awake()
     {
@@ -62,7 +63,12 @@ public class Managers : MonoBehaviour
 
     void ManagersInit()
     {
-        
+        _ui.UIMnangerInit();
+        if (DontDestroyUIHolder == null)
+        {
+            DontDestroyUIHolder = new GameObject { name = "DontDestroyUIHolder" }.transform;
+            DontDestroyOnLoad(DontDestroyUIHolder);
+        }
     }
 
     public void Savedata()

@@ -1,10 +1,13 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
 public abstract class Scene_Base : MonoBehaviour
 {
+    public Action<Defines.SceneType> SceneClearEvent = null;
+
     private void Start()
     {
         Init();
@@ -14,7 +17,9 @@ public abstract class Scene_Base : MonoBehaviour
 
     protected virtual void Init()
     {
-        Object InstanceType = GameObject.FindObjectOfType(typeof(EventSystem));
+        Managers.Instance.DontDestroyUIHolder.gameObject.SetActive(true);
+
+        UnityEngine.Object InstanceType = GameObject.FindObjectOfType(typeof(EventSystem));
         if (InstanceType == null)
             Managers.Resources.Instantiate("UI/EventSystem").name = "@EventSystem";
 
@@ -23,5 +28,10 @@ public abstract class Scene_Base : MonoBehaviour
             Managers.Resources.Instantiate("Prefabs/GameManager").name = "@GameManager";*/
     }
 
-    public abstract void Clear();
+    
+
+    public virtual void Clear()
+    {
+        Managers.Instance.DontDestroyUIHolder.gameObject.SetActive(false);
+    }
 }

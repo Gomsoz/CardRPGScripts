@@ -13,7 +13,7 @@ public class Char_PlayerCtr : Char_BaseCtr
     public Char_CommonStats DefaultStats { get { return m_defaultStats; } }
     public Char_CommonStats AdditionalStats { get { return m_additionalStats; } }
 
-    private void Awake()
+    protected override void Init()
     {
         m_playerStats = new Char_PlayerStats()
         {
@@ -43,6 +43,8 @@ public class Char_PlayerCtr : Char_BaseCtr
 
         m_animator = gameObject.GetComponent<Animator>();
         Managers.UI.GetSceneUI<UI_CharacterProfile>().UpdateText_Stats(m_playerStats);
+
+        base.Init();
     }
 
     public void SetPlayerData(Char_PlayerStats playerStats, Char_CommonStats defaultStats, Char_CommonStats additionalStats)
@@ -50,11 +52,6 @@ public class Char_PlayerCtr : Char_BaseCtr
         m_playerStats = playerStats;
         m_defaultStats = defaultStats;
         m_additionalStats = additionalStats;
-    }
-
-    public void LoadPlayerData()
-    {
-
     }
 
     public override void AttackOtherCharacter(Transform other)

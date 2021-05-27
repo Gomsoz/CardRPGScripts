@@ -10,10 +10,12 @@ public class UIManager
     Dictionary<string, UI_Scene> m_sceneUI = new Dictionary<string, UI_Scene>();
     Dictionary<string, UI_Popup> m_popupUI = new Dictionary<string, UI_Popup>();
 
+    Dictionary<string, UI_Scene> m_dontDestroyUI = new Dictionary<string, UI_Scene>();
+
     Transform m_uiHolder;
 
     public void UIMnangerInit()
-    {
+    {   
         m_uiHolder = new GameObject { name = "UI Holder" }.transform;
     }
 
@@ -32,6 +34,24 @@ public class UIManager
         {
             canvas.sortingOrder = 0;
         }
+    }
+
+    public T DontDestroyUI<T>(Defines.SceneType sceneType) where T : UI_Scene
+    {
+        if (m_dontDestroyUI == null)
+        {
+            m_dontDestroyUI = new Dictionary<string, UI_Scene>();
+        }
+
+        string sceneName = System.Enum.GetName(typeof(Defines.SceneType), sceneType);
+        string name = typeof(T).Name;
+
+        GameObject go = Managers.Resources.Instantiate($"UI/{sceneName}/Scene/{name}");
+        T scene = go.GetComponent<T>();
+        m_sceneUI.Add(name, scene);
+
+        go.transform.SetParent(Managers.Instance.DontDestroyUIHolder);
+        return scene;
     }
 
     public T ShowSceneUI<T>(Defines.SceneType sceneType) where T : UI_Scene

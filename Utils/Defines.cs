@@ -76,6 +76,7 @@ public class Defines
         Player,
         Enemy,
         Item,
+        Mark,
         Count,
     }
     public enum TreasureType

@@ -22,7 +22,6 @@ public class BoardManager
     public void AwakeInit()
     {
         c_setupMapTils.AwakeInit();
-        LoadBoard("G1000");
     }
 
     public void LoadBoard(string mapCode)
