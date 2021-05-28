@@ -57,6 +57,7 @@ public class Scene_Game : Scene_Base
     {
         Defines.Position pos = new Defines.Position(3, 3);
         Transform player = Managers.Object.SpawnObjectOnBoard(Defines.ObjectType.Player, "Player", pos).transform;
+        DontDestroyOnLoad(player);
         Managers.Camera.SetTrackingTarget(player);
         Managers.Camera.UpdateCameraPos(Defines.CameraType.Main);
 

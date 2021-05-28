@@ -106,7 +106,5 @@ public class GameSceneUI : UI_Scene
     public void ChnageTreasureImage(Sprite image, int idx)
     {
 
-    }
-
-    
+    } 
 }

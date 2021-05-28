@@ -4,7 +4,8 @@ using UnityEngine;
 
 public class ProtalMarkBehavior : MonoBehaviour
 {
-    int mapCode;
+    int m_portalIdx;
+    string m_mapCode;
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
@@ -12,5 +13,10 @@ public class ProtalMarkBehavior : MonoBehaviour
         {
             Managers.Scene.LoadScene(Defines.SceneType.HouseScene);
         }
+    }
+
+    public void SetPortalMark(string mapCode)
+    {
+        m_mapCode = mapCode;
     }
 }

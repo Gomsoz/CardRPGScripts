@@ -10,6 +10,8 @@ public class Scene_Start : Scene_Base
         sceneType = Defines.SceneType.StartScene;
 
         LoadUI();
+        Scene_MapData mapData = Managers.Json.LoadObjectData(0, Defines.MapType.MainWorld);
+        Managers.Json.SaveObjectData(mapData, 0, Defines.MapType.MainWorld);
     }
 
     void LoadUI()

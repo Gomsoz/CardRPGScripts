@@ -78,6 +78,8 @@ public class JsonManager
 
         string savestring = JsonConvert.SerializeObject(loaddata, Formatting.Indented);
         File.WriteAllText("Assets/Resources/Data/EnemyData.json", savestring);
+
+        
     }
 
     public Char_PlayerStats LoadPlayerData(int idx)
@@ -108,7 +110,7 @@ public class JsonManager
     public void LoadDataAndSpawnEnemy(int idx)
     {
         string loadString = File.ReadAllText("Assets/Resources/Data/EnemyData.json");
-        JObject loaddata = JObject.Parse(loadString);
+        JObject loaddata = JObject.Parse(loadString);  
 
         JArray enemyStatsDatas = (JArray)loaddata[$"EnemyData_{idx}"];
         JArray enemyPosDatas = (JArray)loaddata[$"EnemyPos_{idx}"];
@@ -121,6 +123,53 @@ public class JsonManager
             Transform enemy = Managers.Object.SpawnEnemy(stats.Name, pos);
             enemy.GetComponent<Char_EnemyCtr>().m_enemyStats = stats;
         }      
+    }
+
+    public void SaveObjectData(Scene_MapData mapData, int mapIdx, Defines.MapType type)
+    {
+        int slotIdx = 0;
+        string worldType = System.Enum.GetName(typeof(Defines.MapType), type);
+
+        string loadString = File.ReadAllText("Assets/Resources/Data/ObjectData.json");
+        JObject loaddata = JObject.Parse(loadString);
+
+        JObject savedata = new JObject();
+
+        GameObject objectHolder = GameObject.Find("ObjectHolder");
+
+        JArray objectDatas = (JArray)loaddata[$"ObjectData_{slotIdx}"][$"{worldType}Idx_{mapIdx}"]["ObjectData"];
+        objectDatas = new JArray();
+
+        slotIdx = 2;
+
+        savedata[$"ObjectData_{slotIdx}"] = new JObject();
+        savedata[$"ObjectData_{slotIdx}"][$"{worldType}Idx_{mapIdx}"] = (JObject)JToken.FromObject(mapData);
+
+        loaddata.Merge(savedata);
+
+        string savestring = JsonConvert.SerializeObject(loaddata, Formatting.Indented);
+        File.WriteAllText("Assets/Resources/Data/ObjectData.json", savestring);
+    }
+
+    public Scene_MapData LoadObjectData(int mapIdx, Defines.MapType type)
+    {
+        int slotIdx = GameManager.GameMgr.SaveSlotIdx;
+        string worldType = System.Enum.GetName(typeof(Defines.MapType), type);
+
+        string loadString = File.ReadAllText("Assets/Resources/Data/ObjectData.json");
+        JObject loaddata = JObject.Parse(loadString);
+
+        Scene_MapData mapData = new Scene_MapData();
+        mapData = JsonConvert.DeserializeObject<Scene_MapData>(loaddata[$"ObjectData_{slotIdx}"][$"{worldType}Idx_{mapIdx}"].ToString());
+
+        JArray objectDatas = (JArray)loaddata[$"ObjectData_{slotIdx}"][$"{worldType}Idx_{mapIdx}"]["ObjectData"];
+
+        for(int i = 0; i < objectDatas.Count; i++)
+        {
+            mapData.ObjectData.Add(JsonConvert.DeserializeObject<Object_Info>(objectDatas[i].ToString()));
+        }
+
+        return mapData;
     }
 
     public bool LoadBoardData(string code, out Board_Base board)

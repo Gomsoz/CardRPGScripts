@@ -124,6 +124,13 @@ public class Defines
         Count,
     }
 
+    public enum MapType
+    {
+        MainWorld,
+        SubMap,
+        Count,
+    }
+
     public enum CameraType
     {
         Main,

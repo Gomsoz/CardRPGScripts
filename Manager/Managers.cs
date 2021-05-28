@@ -15,6 +15,7 @@ public class Managers : MonoBehaviour
     static ResourcesManager _resources = new ResourcesManager();
     static SceneManagerEx _scene = new SceneManagerEx();
     static QuestManager _quest = new QuestManager();
+    static WorldManager _world = new WorldManager();
     static Card_SlotManager _slot;
 
     public static Managers Instance { get { return _instance; } }
@@ -27,6 +28,7 @@ public class Managers : MonoBehaviour
     public static ResourcesManager Resources { get { return _resources; } }
     public static SceneManagerEx Scene { get { return _scene; } }
     public static QuestManager Quest { get { return _quest; } }
+    public static WorldManager World { get { return _world; } }
 
     public static Card_SlotManager Slot;
     #endregion
