@@ -137,8 +137,8 @@ public class JsonManager
 
         GameObject objectHolder = GameObject.Find("ObjectHolder");
 
-        JArray objectDatas = (JArray)loaddata[$"ObjectData_{slotIdx}"][$"{worldType}Idx_{mapIdx}"]["ObjectData"];
-        objectDatas = new JArray();
+        JArray portalDatas = (JArray)loaddata[$"ObjectData_{slotIdx}"][$"{worldType}Idx_{mapIdx}"]["PortalData"];
+        portalDatas = new JArray();
 
         slotIdx = 2;
 
@@ -151,25 +151,49 @@ public class JsonManager
         File.WriteAllText("Assets/Resources/Data/ObjectData.json", savestring);
     }
 
-    public Scene_MapData LoadObjectData(int mapIdx, Defines.MapType type)
+    public Scene_MapData LoadObjectData(string mapIdx)
     {
+        string[] parsing = mapIdx.Split('_');
+        string mapType = parsing[0];
+        int mapNum = int.Parse(parsing[1]);
         int slotIdx = GameManager.GameMgr.SaveSlotIdx;
-        string worldType = System.Enum.GetName(typeof(Defines.MapType), type);
 
         string loadString = File.ReadAllText("Assets/Resources/Data/ObjectData.json");
         JObject loaddata = JObject.Parse(loadString);
 
         Scene_MapData mapData = new Scene_MapData();
-        mapData = JsonConvert.DeserializeObject<Scene_MapData>(loaddata[$"ObjectData_{slotIdx}"][$"{worldType}Idx_{mapIdx}"].ToString());
+        mapData = JsonConvert.DeserializeObject<Scene_MapData>(loaddata[$"ObjectData_{slotIdx}"][$"{mapType}_{mapNum}"].ToString());
 
-        JArray objectDatas = (JArray)loaddata[$"ObjectData_{slotIdx}"][$"{worldType}Idx_{mapIdx}"]["ObjectData"];
+        JArray objectDatas = (JArray)loaddata[$"ObjectData_{slotIdx}"][$"{mapType}_{mapNum}"]["PortalData"];
 
         for(int i = 0; i < objectDatas.Count; i++)
         {
-            mapData.ObjectData.Add(JsonConvert.DeserializeObject<Object_Info>(objectDatas[i].ToString()));
+            mapData.PortalData.Add(JsonConvert.DeserializeObject<Portal_Info>(objectDatas[i].ToString()));
         }
 
         return mapData;
+    }
+
+    public List<string> LoadLinkedMapData(string mapIdx)
+    {
+        string[] parsing = mapIdx.Split('_');
+        string mapType = parsing[0];
+        int mapNum = int.Parse(parsing[1]);
+        int slotIdx = GameManager.GameMgr.SaveSlotIdx;
+
+        string loadString = File.ReadAllText("Assets/Resources/Data/LinkedMapData.json");
+        JObject loaddata = JObject.Parse(loadString);
+
+        JArray linkedMapDatas = (JArray)loaddata[$"LinkMapData_{slotIdx}"][$"{mapType}_{mapNum}"];
+
+        List<string> list = new List<string>();
+
+        for (int i = 0; i < linkedMapDatas.Count; i++)
+        {
+            list.Add(linkedMapDatas[i].ToString());
+        }
+
+        return list;
     }
 
     public bool LoadBoardData(string code, out Board_Base board)

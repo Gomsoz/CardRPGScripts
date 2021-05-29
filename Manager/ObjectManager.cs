@@ -61,7 +61,10 @@ public class ObjectManager
         if (type == Defines.ObjectType.Enemy)
             go.transform.parent = m_enemyHolder;
         else if (type == Defines.ObjectType.Player)
+        {
+            go.transform.parent = GameManager.GameMgr.DontDestoryGameObject;
             m_player = go.transform;
+        }
 
         Managers.Board.ChkAndAddObjOnBoard(pos, go.transform);
         return go.transform;

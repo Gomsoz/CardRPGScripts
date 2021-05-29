@@ -8,13 +8,14 @@ public class Scene_House : Scene_Base
 
     protected override void Init()
     {
-        base.Init();
-
         Managers.Board.LoadBoard("H1000");
 
-        Managers.Object.Player.GetComponent<Char_PlayerCtr>().SetPosition(new Defines.Position(2, 3));
+        base.Init();
 
-        GameObject mark = Managers.Resources.Instantiate("Prefabs/Object/Mark/PortalMark");
-        mark.transform.position = Managers.Board.BoardPosToWorldPos(new Defines.Position(1, 3));
+        Managers.Object.Player.GetComponent<Char_PlayerCtr>().SetPosition(new Defines.Position(m_mapData.SpawnPosX, m_mapData.SpawnPosY));
+
+
+
+        
     }
 }

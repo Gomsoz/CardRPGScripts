@@ -7,5 +7,5 @@ public class Scene_MapData
     public int SpawnPosX;
     public int SpawnPosY;
 
-    public List<Object_Info> ObjectData = new List<Object_Info>();
+    public List<Portal_Info> PortalData = new List<Portal_Info>();
 }

@@ -18,7 +18,6 @@ public class SceneManagerEx
         Debug.Log(CurrentScene);
         CurrentScene.Clear();
         m_nextSceneName = System.Enum.GetName(typeof(Defines.SceneType), sceneType);
-
         if (!m_nextSceneName.Contains("Scene"))
             m_nextSceneName = $"{m_nextSceneName}Scene";
 

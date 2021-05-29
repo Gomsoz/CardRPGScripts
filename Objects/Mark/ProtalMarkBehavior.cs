@@ -4,19 +4,25 @@ using UnityEngine;
 
 public class ProtalMarkBehavior : MonoBehaviour
 {
+    [SerializeField]
     int m_portalIdx;
-    string m_mapCode;
+
+    private void Start()
+    {
+    }
+
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.transform.tag == "Player")
         {
+            Managers.World.SetMapIdx(LinkedMapList.GetMapIdx(Defines.MapType.MainWorld, 0, m_portalIdx));
             Managers.Scene.LoadScene(Defines.SceneType.HouseScene);
         }
     }
 
-    public void SetPortalMark(string mapCode)
+    public void Init(int idx)
     {
-        m_mapCode = mapCode;
+        m_portalIdx = idx;
     }
 }

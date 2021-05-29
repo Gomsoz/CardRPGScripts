@@ -4,7 +4,11 @@ using UnityEngine;
 
 public class WorldManager
 {
-    Dictionary<string, ProtalMarkBehavior[]> m_portalMarks = new Dictionary<string, ProtalMarkBehavior[]>();
+    string m_curMapIdx;
+    public string CurMapIdx { get { return m_curMapIdx; } }
 
-    
+    public void SetMapIdx(string mapIdx)
+    {
+        m_curMapIdx = mapIdx;
+    }
 }

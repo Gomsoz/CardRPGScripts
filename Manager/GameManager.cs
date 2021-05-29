@@ -24,6 +24,8 @@ public class GameManager : MonoBehaviour
     public int SaveSlotIdx { get { return m_saveSlotIdx; } set { m_saveSlotIdx = value; } }
     public bool IsLoadData = false;
 
+    public Transform DontDestoryGameObject;
+
     private static bool paused = false;
     public static bool Paused
     {
@@ -40,11 +42,9 @@ public class GameManager : MonoBehaviour
         Singleton();
         _cardSystem = transform.GetComponent<Time_CardSystem>();
         _markPoint = transform.GetComponent<MarkPoint>();
-        _createItemBox = GetComponent<ItemBox_Creating>(); 
-    }
-
-    private void Start()
-    {
+        _createItemBox = GetComponent<ItemBox_Creating>();
+        DontDestoryGameObject = new GameObject { name = "DontDestoryGameOject" }.transform;
+        GameObject.DontDestroyOnLoad(DontDestoryGameObject);
     }
 
     void Singleton()

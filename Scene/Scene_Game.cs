@@ -23,14 +23,13 @@ public class Scene_Game : Scene_Base
 
     protected override void Init()
     {
+        Managers.World.SetMapIdx("MainWorld_0");
+
         base.Init();
 
         //LoadQuest();     
         Managers.Object.Init();
         Managers.Object.DyingEnemyEvent += SpawnEnemyConstantly;
-
-        GameObject mark = Managers.Resources.Instantiate("Prefabs/Object/Mark/PortalMark");
-        mark.transform.position = Managers.Board.BoardPosToWorldPos(new Defines.Position(4, 3));
 
     }
 
