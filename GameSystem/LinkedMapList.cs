@@ -11,13 +11,13 @@ public class LinkedMapList
 
     public void SetLinkedMapList(string mapIdx)
     {
+        mapList = new Dictionary<string, List<string>>();
         mapList[mapIdx] = Managers.Json.LoadLinkedMapData(mapIdx);
     }
 
-    public static string GetMapIdx(Defines.MapType type, int mapIdx, int portalIdx)
+    public static string GetMapIdx(string mapIdx, int portalIdx)
     {
-        string key = $"{type}_{mapIdx}";
-        List<string> list =  mapList[key];
+        List<string> list =  mapList[mapIdx];
         return list[portalIdx];
     }
 }

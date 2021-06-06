@@ -11,10 +11,12 @@ using System.Net;
 public class JsonManager
 {
     int m_saveSlotIdx;
+    string m_curMapIdx;
 
     public void SaveData()
     {
         m_saveSlotIdx = GameManager.GameMgr.SaveSlotIdx;
+        m_curMapIdx = Managers.World.CurMapIdx;
         SavePlayerData();
         SaveEnemyData();
     }
@@ -55,8 +57,8 @@ public class JsonManager
         JArray enemyStatsDatas = new JArray();
         JArray enemyPosDatas = new JArray();
 
-        loaddata[$"EnemyData_{m_saveSlotIdx}"] = new JArray();
-        loaddata[$"EnemyPos_{m_saveSlotIdx}"] = new JArray();
+        loaddata[$"EnemyData_{m_saveSlotIdx}"][m_curMapIdx] = new JArray();
+        loaddata[$"EnemyPos_{m_saveSlotIdx}"][m_curMapIdx] = new JArray();
 
         GameObject enemyHolder = GameObject.Find("EnemyHolder");
         Char_EnemyStats enemyStats;
@@ -71,8 +73,10 @@ public class JsonManager
             enemyPosDatas.Add(JToken.FromObject(enemyPos));
         }
 
-        savedata[$"EnemyData_{m_saveSlotIdx}"] = enemyStatsDatas;
-        savedata[$"EnemyPos_{m_saveSlotIdx}"] = enemyPosDatas;
+        savedata[$"ObjectData_{m_saveSlotIdx}"] = new JObject();
+        savedata[$"EnemyData_{m_saveSlotIdx}"][$"{m_curMapIdx}"] = enemyStatsDatas;
+        savedata[$"EnemyPos_{m_saveSlotIdx}"][$"{m_curMapIdx}"] = enemyPosDatas;
+  
 
         loaddata.Merge(savedata);
 
@@ -109,26 +113,28 @@ public class JsonManager
 
     public void LoadDataAndSpawnEnemy(int idx)
     {
+        m_curMapIdx = Managers.World.CurMapIdx;
+
         string loadString = File.ReadAllText("Assets/Resources/Data/EnemyData.json");
         JObject loaddata = JObject.Parse(loadString);  
 
-        JArray enemyStatsDatas = (JArray)loaddata[$"EnemyData_{idx}"];
-        JArray enemyPosDatas = (JArray)loaddata[$"EnemyPos_{idx}"];
+        JArray enemyStatsDatas = (JArray)loaddata[$"EnemyData_{idx}"][m_curMapIdx];
+        JArray enemyPosDatas = (JArray)loaddata[$"EnemyPos_{idx}"][m_curMapIdx];
 
         for (int i = 0; i < enemyStatsDatas.Count; i++)
         {
-            Char_EnemyStats stats = JsonConvert.DeserializeObject<Char_EnemyStats>(loaddata[$"EnemyData_{idx}"][i].ToString());
-            Defines.Position pos = JsonConvert.DeserializeObject<Defines.Position>(loaddata[$"EnemyPos_{idx}"][i].ToString());
+            Char_EnemyStats stats = JsonConvert.DeserializeObject<Char_EnemyStats>(enemyStatsDatas[i].ToString());
+            Defines.Position pos = JsonConvert.DeserializeObject<Defines.Position>(enemyPosDatas[i].ToString());
 
             Transform enemy = Managers.Object.SpawnEnemy(stats.Name, pos);
             enemy.GetComponent<Char_EnemyCtr>().m_enemyStats = stats;
         }      
     }
 
-    public void SaveObjectData(Scene_MapData mapData, int mapIdx, Defines.MapType type)
+    public void SaveObjectData(Scene_MapData mapData)
     {
         int slotIdx = 0;
-        string worldType = System.Enum.GetName(typeof(Defines.MapType), type);
+        m_curMapIdx = Managers.World.CurMapIdx;
 
         string loadString = File.ReadAllText("Assets/Resources/Data/ObjectData.json");
         JObject loaddata = JObject.Parse(loadString);
@@ -137,13 +143,13 @@ public class JsonManager
 
         GameObject objectHolder = GameObject.Find("ObjectHolder");
 
-        JArray portalDatas = (JArray)loaddata[$"ObjectData_{slotIdx}"][$"{worldType}Idx_{mapIdx}"]["PortalData"];
+        JArray portalDatas = (JArray)loaddata[$"ObjectData_{slotIdx}"][m_curMapIdx]["PortalData"];
         portalDatas = new JArray();
 
         slotIdx = 2;
 
         savedata[$"ObjectData_{slotIdx}"] = new JObject();
-        savedata[$"ObjectData_{slotIdx}"][$"{worldType}Idx_{mapIdx}"] = (JObject)JToken.FromObject(mapData);
+        savedata[$"ObjectData_{slotIdx}"][m_curMapIdx] = (JObject)JToken.FromObject(mapData);
 
         loaddata.Merge(savedata);
 

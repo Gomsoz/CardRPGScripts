@@ -2,20 +2,13 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Scene_House : Scene_Base
+public class Scene_House : Scene_Game
 {
-    int m_houseCode;
-
-    protected override void Init()
+    public override void AwakeInit()
     {
+        Managers.World.SetMapIdx("SubMap_0");
+        sceneType = Defines.SceneType.HouseScene;
+
         Managers.Board.LoadBoard("H1000");
-
-        base.Init();
-
-        Managers.Object.Player.GetComponent<Char_PlayerCtr>().SetPosition(new Defines.Position(m_mapData.SpawnPosX, m_mapData.SpawnPosY));
-
-
-
-        
     }
 }

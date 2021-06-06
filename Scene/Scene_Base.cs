@@ -18,6 +18,7 @@ public abstract class Scene_Base : MonoBehaviour
 
     public Defines.SceneType sceneType { get; protected set; }
 
+    // 씬이 로드될 때
     protected virtual void Init()
     {
         Managers.Instance.DontDestroyUIHolder.gameObject.SetActive(true);
@@ -27,11 +28,15 @@ public abstract class Scene_Base : MonoBehaviour
         if (InstanceType == null)
             Managers.Resources.Instantiate("UI/EventSystem").name = "@EventSystem";
 
+        // 맵 데이터를 로드함.
         if(Managers.World.CurMapIdx != null)
         {
+            // 현재 맵에 연결된 다른 맵들의 정보
             m_linkedMapList.SetLinkedMapList(Managers.World.CurMapIdx);
+            // 현재 맵 데이터
             m_mapData = Managers.Json.LoadObjectData(Managers.World.CurMapIdx);
 
+            // 현재 맵의 포탈 생성
             if (m_mapData.PortalData != null)
             {
                 for (int i = 0; i < m_mapData.PortalData.Count; i++)
@@ -52,7 +57,12 @@ public abstract class Scene_Base : MonoBehaviour
 
     public virtual void Clear()
     {
+        // 로딩화면 때문에 DontDestroy 시킨 UI 와 Player를 비활성화 해주고, 로드가 될 때 다시 활성화 시켜줌.
         Managers.Instance.DontDestroyUIHolder.gameObject.SetActive(false);
         GameManager.GameMgr.DontDestoryGameObject.gameObject.SetActive(false);
+
+        // 카메라 리스트 초기화
+        Managers.Camera.ClearCameraList();
+        
     }
 }

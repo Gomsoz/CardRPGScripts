@@ -9,6 +9,8 @@ public class Time_CardSystem : MonoBehaviour
 
     Coroutine m_timeCoroutine = null;
 
+    bool m_isCoroutineStop = false;
+
     int[] m_FixedcardTime = new int[(int)Defines.CardTimeState.Count]
     {
         10,5,5,5
@@ -19,13 +21,24 @@ public class Time_CardSystem : MonoBehaviour
     {
         SceneManager.sceneLoaded -= OnSceneLoaded;
         SceneManager.sceneLoaded += OnSceneLoaded;
+
+        SceneManager.sceneUnloaded -= OnSceneUnloaded;
+        SceneManager.sceneUnloaded += OnSceneUnloaded;
     }
 
     public void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
-        if (m_timeCoroutine != null)
-            StopCoroutine(m_timeCoroutine);
+        if (scene.name == "LoadingScene")
+            return;
+
+        m_isCoroutineStop = false;
     }
+
+    public void OnSceneUnloaded(Scene scene)
+    {
+        m_isCoroutineStop = true;
+    }
+
 
     public void StartCardTime(Defines.CardTimeState state)
     {
@@ -35,6 +48,12 @@ public class Time_CardSystem : MonoBehaviour
 
     IEnumerator OnCardTimer()
     {
+        while (m_isCoroutineStop)
+        {
+            yield return new WaitForSeconds(0.2f);
+            continue;
+        }
+
         while (m_leftCardTime > 0)
         {
             yield return new WaitForSeconds(1f);

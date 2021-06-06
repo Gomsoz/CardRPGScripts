@@ -6,6 +6,7 @@ public class Defines
 {
     public struct Position
     {
+        public string MapIdx;
         public float posX;
         public float posY;
 
@@ -13,12 +14,28 @@ public class Defines
         {
             posX = x;
             posY = y;
+            MapIdx = Managers.World.CurMapIdx;
+        }
+
+        public Position(float x, float y, string mapIdx)
+        {
+            posX = x;
+            posY = y;
+            MapIdx = mapIdx;
         }
 
         public Position(Defines.Position pos)
         {
             posX = pos.posX;
             posY = pos.posY;
+            MapIdx = Managers.World.CurMapIdx;
+        }
+
+        public Position(Defines.Position pos, string mapIdx)
+        {
+            posX = pos.posX;
+            posY = pos.posY;
+            MapIdx = mapIdx;
         }
 
         public static Position operator- (Position left, Position right)

@@ -9,45 +9,51 @@ public class Scene_Game : Scene_Base
     {
         Managers.Board.AwakeInit();
 
+        AwakeInit();
+    }
+
+    public virtual void AwakeInit()
+    {
+        Managers.World.SetMapIdx("MainWorld_0");
         sceneType = Defines.SceneType.GameScene;
-        Managers.Camera.BindCamera(Defines.CameraType.Main);
-
-        Managers.Slot = GameObject.Find("Card_SlotManager").GetComponent<Card_SlotManager>();
-
         Managers.Board.LoadBoard("G1000");
-
-        if(Managers.Instance.DontDestroyUIHolder.childCount == 0)
-            DataLoadingFirsttime();
-
     }
 
     protected override void Init()
     {
-        Managers.World.SetMapIdx("MainWorld_0");
-
         base.Init();
 
         //LoadQuest();     
         Managers.Object.Init();
         Managers.Object.DyingEnemyEvent += SpawnEnemyConstantly;
 
-    }
-
-    public void DataLoadingFirsttime()
-    {
         if (GameManager.GameMgr.IsLoadData == false)
             NewLoadObject();
         else
             LoadData();
 
+        if (Managers.Instance.DontDestroyUIHolder.childCount == 0)
+            DataLoadingFirsttime();
+
+
+    }
+
+    public void DataLoadingFirsttime()
+    {
         LoadDontDestroyUI();
+        Managers.Instance.LoadSlotManager();
     }
 
     public void LoadData()
     {
         int idx = GameManager.GameMgr.SaveSlotIdx;
-        Managers.Json.LoadDataAndSpawnPlayer(idx);
+        if(Managers.Object.Player == null)
+            Managers.Json.LoadDataAndSpawnPlayer(idx);
+        else
+            Managers.Object.Player.GetComponent<Char_PlayerCtr>().SetPosition(new Defines.Position(m_mapData.SpawnPosX, m_mapData.SpawnPosY));
+
         Managers.Json.LoadDataAndSpawnEnemy(idx);
+        Managers.Camera.BindCamera(Defines.CameraType.Main);
         Managers.Camera.SetTrackingTarget(Managers.Object.Player);
         Managers.Camera.UpdateCameraPos(Defines.CameraType.Main);
     }
@@ -93,5 +99,13 @@ public class Scene_Game : Scene_Base
     public override void Clear()
     {
         base.Clear();
+
+        GameObject enemyHolder = GameObject.Find("EnemyHolder");
+        for(int i = 0; i < enemyHolder.transform.childCount; i++)
+        {
+            enemyHolder.transform.GetChild(i).GetComponent<AI_BaseEnemy>().ClearTimeTracking();
+        }
+        Managers.Instance.Savedata();
+        Managers.Json.SaveObjectData(m_mapData);
     }
 }

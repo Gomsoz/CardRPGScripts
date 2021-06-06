@@ -66,5 +66,4 @@ public class Invenotry_ItemInfo : UI_Base
         Get<Text>((int)Texts.ExplainText).text = "";
         Get<Button>((int)Buttons.UseButton).gameObject.SetActive(false);
     }
-
 }

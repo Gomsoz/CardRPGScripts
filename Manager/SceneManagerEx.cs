@@ -15,7 +15,6 @@ public class SceneManagerEx
 
     public void LoadScene(Defines.SceneType sceneType)
     {
-        Debug.Log(CurrentScene);
         CurrentScene.Clear();
         m_nextSceneName = System.Enum.GetName(typeof(Defines.SceneType), sceneType);
         if (!m_nextSceneName.Contains("Scene"))

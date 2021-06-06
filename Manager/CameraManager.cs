@@ -10,7 +10,7 @@ public class CameraManager
 
     public void BindCamera(Defines.CameraType type)
     {
-        if (CameraList.ContainsKey(type) == true)
+        if (CameraList.ContainsKey(type))
             return;
 
         Transform camera = GameObject.Find($"{System.Enum.GetName(typeof(Defines.CameraType), type)} Camera").transform;
@@ -37,5 +37,10 @@ public class CameraManager
     public void SetTrackingTarget(Transform target)
     {
         m_trackingTarget = target;
+    }
+
+    public void ClearCameraList()
+    {
+        CameraList = new Dictionary<Defines.CameraType, Transform>();
     }
 }

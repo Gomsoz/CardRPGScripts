@@ -16,8 +16,22 @@ public class ProtalMarkBehavior : MonoBehaviour
     {
         if (collision.transform.tag == "Player")
         {
-            Managers.World.SetMapIdx(LinkedMapList.GetMapIdx(Defines.MapType.MainWorld, 0, m_portalIdx));
-            Managers.Scene.LoadScene(Defines.SceneType.HouseScene);
+            string nextScene = LinkedMapList.GetMapIdx(Managers.World.CurMapIdx, m_portalIdx);
+            Managers.World.SetMapIdx(nextScene);
+            string sceneName = nextScene.Split('_')[0];
+
+            switch (sceneName)
+            {
+                case "MainWorld":
+                    Managers.Scene.LoadScene(Defines.SceneType.GameScene);
+                    break;
+                case "SubMap":
+                    Managers.Scene.LoadScene(Defines.SceneType.HouseScene);
+                    break;
+                default:
+                    Debug.Log("Scene Name Error");
+                    break;
+            }
         }
     }
 

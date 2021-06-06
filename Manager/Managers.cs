@@ -40,7 +40,7 @@ public class Managers : MonoBehaviour
     private void Awake()
     {
         Singleton();
-        ManagersInit(); 
+        ManagersInit();
     }
 
     private void Update()
@@ -70,6 +70,15 @@ public class Managers : MonoBehaviour
         {
             DontDestroyUIHolder = new GameObject { name = "DontDestroyUIHolder" }.transform;
             DontDestroyOnLoad(DontDestroyUIHolder);
+        }
+    }
+    public void LoadSlotManager()
+    {
+        if (Slot == null)
+        {
+            GameObject go = _resources.Instantiate($"Prefabs/DontDestroyObject/@Card_SlotManager");
+            Slot = go.GetComponent<Card_SlotManager>();
+            DontDestroyOnLoad(go);
         }
     }
 
