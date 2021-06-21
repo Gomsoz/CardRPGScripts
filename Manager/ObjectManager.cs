@@ -16,6 +16,7 @@ public class ObjectManager
         "Prefabs/Object/Player",
         "Prefabs/Object/Enemy",
         "Prefabs/Object/Item",
+        "Prefabs/Object",
         "Prefabs/Object/Mark",
     };
 
@@ -25,12 +26,14 @@ public class ObjectManager
     public Transform Player { get { return m_player; } }
 
     Transform m_enemyHolder;
+    Transform m_objectHolder;
 
     public Action<Char_EnemyStats> DyingEnemyEvent = null;
 
     public void Init()
     {
         m_enemyHolder = new GameObject { name = "EnemyHolder" }.transform;
+        m_objectHolder = new GameObject { name = "ObjectHolder" }.transform;
     }
 
     public Transform SpawnEnemy(string enemyName, Defines.Position pos)
@@ -56,7 +59,7 @@ public class ObjectManager
         string objectPath = $"{m_defaultObjectPath[(int)type]}/{objectName}";
 
         GameObject go = Managers.Resources.Instantiate(objectPath);
-        go.GetComponent<Char_BaseCtr>().SetPosition(pos);
+        go.GetComponent<InterfaceClass.IPosition>().SetPosition(pos);
 
         if (type == Defines.ObjectType.Enemy)
             go.transform.parent = m_enemyHolder;
@@ -65,6 +68,8 @@ public class ObjectManager
             go.transform.parent = GameManager.GameMgr.DontDestoryGameObject;
             m_player = go.transform;
         }
+        else if (type == Defines.ObjectType.Object)
+            go.transform.parent = m_objectHolder;
 
         Managers.Board.ChkAndAddObjOnBoard(pos, go.transform);
         return go.transform;

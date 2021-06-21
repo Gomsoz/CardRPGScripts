@@ -13,7 +13,7 @@ public class UI_Status : UI_Scene
     {
         base.Init();
 
-        m_damageUI = Managers.Resources.Load<GameObject>($"Prefabs/UI/GameScene/Scene/Text_Damage");
+        m_damageUI = Managers.Resources.Load<GameObject>($"Prefabs/UI/Common/Text_Damage");
     }
 
     public GameObject InstantiateDamageUI()

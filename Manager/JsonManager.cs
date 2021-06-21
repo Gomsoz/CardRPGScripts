@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data;
 using UnityEngine;
+using System;
 
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
@@ -47,6 +48,20 @@ public class JsonManager
         File.WriteAllText("Assets/Resources/Data/PlayerData.json", savestring);
     }
 
+
+
+    public void SaveInitialEnemyData(Map_Info info)
+    {
+        JObject saveData = new JObject();
+
+        JArray enemyStatsDatas = new JArray();
+        JArray enemyPosDatas = new JArray();
+
+        // 파일로 저장 
+        string savestring = JsonConvert.SerializeObject(saveData, Formatting.Indented);
+        // JObject를 Serialize하여 json string 생성 
+        File.WriteAllText("Assets/Resources/Data/ScoreData.json", savestring); // 생성된 string을 파일에 쓴다 }
+    }
     void SaveEnemyData()
     {
         string loadString = File.ReadAllText("Assets/Resources/Data/EnemyData.json");
@@ -205,7 +220,7 @@ public class JsonManager
     public bool LoadBoardData(string code, out Board_Base board)
     {
         Debug.Log("Load Data... : Start Load the Board Data");
-        string loadString = File.ReadAllText("Assets/Resources/Data/MapData.json");
+        string loadString = File.ReadAllText("Assets/Resources/Data/MapCodeData.json");
 
         if (loadString == null)
         {
@@ -237,6 +252,61 @@ public class JsonManager
         return true;
     }
 
+    #region Defense Mode
+    public void SaveDefenseModeData(Map_Info mapInfo)
+    {
+        SaveDefenseMapData(mapInfo.mapCode);
+    }
+
+    public void LoadDefenseModeData()
+    {
+        LoadDefenseMapData();
+    }
+
+    void SaveDefenseMapData(string mapCode)
+    {
+        JObject saveData = new JObject();
+
+        string _curGameMode = Enum.GetName(typeof(GameMode), GameManager.CurGameMode);
+        saveData["Mode"] = _curGameMode;
+        saveData["MapCode"] = mapCode;
+
+        JArray _mapcodes = new JArray();
+
+        string savestring = JsonConvert.SerializeObject(saveData, Formatting.Indented);
+        File.WriteAllText("Assets/Resources/Data/MapData.json", savestring); 
+    }
+
+    void SaveDefenseObjectData()
+    {
+
+    }
+
+    void SaveDefenseEnemyData()
+    {
+
+    }
+
+    void LoadDefenseMapData()
+    {
+        string loadString = File.ReadAllText("Assets/Resources/Data/MapData.json");
+
+        if (loadString == null)
+        {
+            Debug.Log($"Cannot Find Map Data");
+            return;
+        }
+
+        JObject loaddata = JObject.Parse(loadString);
+
+        string _mapCode = (string)loaddata["MapCode"];
+
+        GameManager.CurGameMode = GameMode.Defense;
+        Managers.Board.LoadBoard(_mapCode);
+
+    }
+    #endregion
+
     /*public void SaveScore(int level, int score)
     {
         JObject saveData = new JObject();
@@ -247,7 +317,6 @@ public class JsonManager
 
         // 파일로 저장 
         string savestring = JsonConvert.SerializeObject(saveData, Formatting.Indented);
-        // JObject를 Serialize하여 json string 생성 
         File.WriteAllText("Assets/Resources/Data/ScoreData.json", savestring); // 생성된 string을 파일에 쓴다 }
 
         //출처: https://blog.komastar.kr/232 [World of Komastar]

@@ -65,12 +65,17 @@ public class Defines
             }
         }
     }
+
+
     public enum SceneType
     {
         LoadingScene,
         StartScene,
         GameScene,
         HouseScene,
+        DefenseScene,
+        WaitingScene,
+        Count,
     }
     public enum Direction
     {
@@ -93,6 +98,7 @@ public class Defines
         Player,
         Enemy,
         Item,
+        Object,
         Mark,
         Count,
     }

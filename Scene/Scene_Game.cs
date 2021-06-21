@@ -2,9 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+
+
 public class Scene_Game : Scene_Base
 {
-
     private void Awake()
     {
         Managers.Board.AwakeInit();
@@ -27,24 +28,23 @@ public class Scene_Game : Scene_Base
         Managers.Object.Init();
         Managers.Object.DyingEnemyEvent += SpawnEnemyConstantly;
 
+        if (Managers.Instance.DontDestroyUIHolder.childCount == 0)
+            DataLoadingFirsttime();
+
         if (GameManager.GameMgr.IsLoadData == false)
             NewLoadObject();
         else
             LoadData();
 
-        if (Managers.Instance.DontDestroyUIHolder.childCount == 0)
-            DataLoadingFirsttime();
-
-
     }
 
-    public void DataLoadingFirsttime()
+    void DataLoadingFirsttime()
     {
         LoadDontDestroyUI();
         Managers.Instance.LoadSlotManager();
     }
 
-    public void LoadData()
+    protected virtual void LoadData()
     {
         int idx = GameManager.GameMgr.SaveSlotIdx;
         if(Managers.Object.Player == null)
@@ -58,7 +58,7 @@ public class Scene_Game : Scene_Base
         Managers.Camera.UpdateCameraPos(Defines.CameraType.Main);
     }
 
-    void NewLoadObject()
+    protected virtual void NewLoadObject()
     {
         Defines.Position pos = new Defines.Position(3, 3);
         Transform player = Managers.Object.SpawnObjectOnBoard(Defines.ObjectType.Player, "Player", pos).transform;
@@ -72,11 +72,13 @@ public class Scene_Game : Scene_Base
 
     public virtual void LoadDontDestroyUI()
     {
-        Managers.UI.DontDestroyUI<GameSceneUI>(sceneType);
-        Managers.UI.DontDestroyUI<UI_Status>(sceneType);
-        Managers.UI.DontDestroyUI<UI_CharacterProfile>(sceneType).gameObject.SetActive(false);
-        Managers.UI.DontDestroyUI<Inventory_Treasure>(sceneType);
-        Managers.UI.DontDestroyUI<UI_Inventory>(sceneType).gameObject.SetActive(false);
+        Defines.SceneType type = Defines.SceneType.GameScene;
+
+        Managers.UI.DontDestroyUI<GameSceneUI>(type);
+        Managers.UI.DontDestroyUI<UI_Status>(type);
+        Managers.UI.DontDestroyUI<UI_CharacterProfile>(type).gameObject.SetActive(false);
+        Managers.UI.DontDestroyUI<Inventory_Treasure>(type);
+        Managers.UI.DontDestroyUI<UI_Inventory>(type).gameObject.SetActive(false);
         Managers.UI.DisactivatePopupUI();
 
         Managers.Quest.InstantiateQuestUI();

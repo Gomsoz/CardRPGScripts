@@ -29,7 +29,7 @@ public abstract class Scene_Base : MonoBehaviour
             Managers.Resources.Instantiate("UI/EventSystem").name = "@EventSystem";
 
         // 맵 데이터를 로드함.
-        if(Managers.World.CurMapIdx != null)
+        /*if(Managers.World.CurMapIdx != null)
         {
             // 현재 맵에 연결된 다른 맵들의 정보
             m_linkedMapList.SetLinkedMapList(Managers.World.CurMapIdx);
@@ -46,23 +46,23 @@ public abstract class Scene_Base : MonoBehaviour
                     mark.GetComponent<ProtalMarkBehavior>().Init(i);
                 }
             }
-        }   
+        }  */ 
 
         /*InstanceType = GameObject.FindObjectOfType(typeof(GameManager));
         if (InstanceType == null)
             Managers.Resources.Instantiate("Prefabs/GameManager").name = "@GameManager";*/
     }
 
-    
-
     public virtual void Clear()
     {
+        // 모든 팝업을 닫는다
+        Managers.UI.ClosePopupAll();
+
         // 로딩화면 때문에 DontDestroy 시킨 UI 와 Player를 비활성화 해주고, 로드가 될 때 다시 활성화 시켜줌.
         Managers.Instance.DontDestroyUIHolder.gameObject.SetActive(false);
         GameManager.GameMgr.DontDestoryGameObject.gameObject.SetActive(false);
 
         // 카메라 리스트 초기화
-        Managers.Camera.ClearCameraList();
-        
+        Managers.Camera.ClearCameraList(); 
     }
 }

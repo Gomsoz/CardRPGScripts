@@ -3,6 +3,14 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 
+public enum GameMode
+{
+    None,
+    Normal,
+    Defense,
+    Count,
+}
+
 public class GameManager : MonoBehaviour
 {
     static GameManager _instance;
@@ -23,6 +31,10 @@ public class GameManager : MonoBehaviour
     int m_saveSlotIdx = 0;
     public int SaveSlotIdx { get { return m_saveSlotIdx; } set { m_saveSlotIdx = value; } }
     public bool IsLoadData = false;
+
+    #region 모드정보
+    public static GameMode CurGameMode;
+    #endregion
 
     public Transform DontDestoryGameObject;
 

@@ -34,14 +34,20 @@ public class UI_StartScene : UI_Scene
         AddUIHandler(Get<Button>((int)Btns.StartBtn).gameObject, ClickedStartBtn);
         AddUIHandler(Get<Button>((int)Btns.FigBtn).gameObject, ClickedFigBtn);
         AddUIHandler(Get<Button>((int)Btns.ExitBtn).gameObject, ClickedExitBtn);
-
     }
 
     public void ClickedStartBtn(PointerEventData evt)
     {
-        Managers.UI.GetSceneUI<UI_SelectScene>().gameObject.SetActive(true);
-        gameObject.SetActive(false);
+        Char_PlayerStats stats = Managers.Json.LoadPlayerData(0);
 
+        if (stats == null)
+        {
+            GameManager.GameMgr.SaveSlotIdx = 0;
+            GameManager.GameMgr.IsLoadData = false;
+            Managers.Scene.LoadScene(Defines.SceneType.GameScene);
+        }
+
+        Managers.UI.ShowPopupUI<UI_SelectScene2>(Defines.SceneType.StartScene);
     }
 
     public void ClickedFigBtn(PointerEventData evt)

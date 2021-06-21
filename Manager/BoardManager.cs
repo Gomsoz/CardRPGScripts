@@ -63,9 +63,9 @@ public class BoardManager
         return true;
     }
 
+    // 보드에서 오브젝트가 있는지 확인하고 제거한다.
     public bool ChkAndRemoveObjOnBoard(Defines.Position pos)
     {
-        // 보드의 경계 검사
         if (ChkBoundary(pos) == false)
             return false;
 
@@ -73,11 +73,13 @@ public class BoardManager
         return true;
     }
 
+    // 보드의 좌표를 월드좌표로 바꿔준다.
     public Vector2 BoardPosToWorldPos(Defines.Position pos)
     {
         return m_tilesOnBoard[(int)pos.posX, (int)pos.posY].position;
     }
 
+    // 보드 상의 위치를 바꿔준다.
     public bool ChkMoveObjOnBoard(Transform charater, Defines.Position pos)
     {
         if (charater == null || ChkBoundary(pos) == false)
@@ -97,6 +99,7 @@ public class BoardManager
         return true;
     }
 
+    // 보드 좌표를 통해 오브젝트를 가져온다.
     public Transform GetObjOnBoard(Defines.Position pos)
     {
         if (ChkBoundary(pos) == false)
@@ -105,6 +108,7 @@ public class BoardManager
         return m_objectOnBoard[(int)pos.posX, (int)pos.posY];
     }
 
+    // 보드 좌표에 오브젝트가 있는지 확인한다.
     public bool ChkObjOnBoard(Defines.Position pos)
     {
         if (m_objectOnBoard[(int)pos.posX, (int)pos.posY] != null)
@@ -116,6 +120,7 @@ public class BoardManager
         return true;
     }
 
+    // 보드 경계를 검사한다.
     public bool ChkBoundary(Defines.Position pos)
     {
         if (pos.posX < 0 || pos.posX >= m_boardWidth || pos.posY < 0 || pos.posY >= m_boardHeight)

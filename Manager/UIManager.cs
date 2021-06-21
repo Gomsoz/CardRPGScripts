@@ -5,6 +5,23 @@ using UnityEngine;
 public class UIManager
 {
     int m_order = 10;
+    /*LoadingScene,
+        StartScene,
+        GameScene,
+        HouseScene,
+        DefenseScene,
+        WaitingScene,
+        Count,
+     */
+    string[] m_defaultSceneUIPath = new string[(int)Defines.SceneType.Count]
+    {
+        "UI/LoadingScene/Scene",
+        "UI/StartScene/Scene",
+        "UI/GameScene/Scene",
+        "UI/GameScene/HouseScene/Scene",
+        "UI/GameScene/DefenseScene/Scene",
+        "UI/WaitingScene/Scene",
+    };
 
     Stack<UI_Popup> m_popupStack = new Stack<UI_Popup>();
     Dictionary<string, UI_Scene> m_sceneUI = new Dictionary<string, UI_Scene>();
@@ -43,12 +60,11 @@ public class UIManager
             m_dontDestroyUI = new Dictionary<string, UI_Scene>();
         }
 
-        string sceneName = System.Enum.GetName(typeof(Defines.SceneType), sceneType);
-        string name = typeof(T).Name;
+        string scenePath = $"{m_defaultSceneUIPath[(int)sceneType]}/{typeof(T).Name}";
 
-        GameObject go = Managers.Resources.Instantiate($"UI/{sceneName}/Scene/{name}");
+        GameObject go = Managers.Resources.Instantiate(scenePath);
         T scene = go.GetComponent<T>();
-        m_sceneUI.Add(name, scene);
+        m_sceneUI.Add(typeof(T).Name, scene);
 
         go.transform.SetParent(Managers.Instance.DontDestroyUIHolder);
         return scene;
@@ -61,12 +77,11 @@ public class UIManager
             m_sceneUI = new Dictionary<string, UI_Scene>();
         }
 
-        string sceneName = System.Enum.GetName(typeof(Defines.SceneType), sceneType);
-        string name = typeof(T).Name;
+        string scenePath = $"{m_defaultSceneUIPath[(int)sceneType]}/{typeof(T).Name}";
 
-        GameObject go = Managers.Resources.Instantiate($"UI/{sceneName}/Scene/{name}");
+        GameObject go = Managers.Resources.Instantiate(scenePath);
         T scene = go.GetComponent<T>();
-        m_sceneUI.Add(name, scene);
+        m_sceneUI.Add(typeof(T).Name, scene);
 
         go.transform.SetParent(m_uiHolder);
         return scene;

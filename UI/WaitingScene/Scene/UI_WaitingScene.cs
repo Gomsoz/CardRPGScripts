@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class StageManager : MonoBehaviour
+public class UI_WaitingScene : MonoBehaviour
 {
     // Start is called before the first frame update
     void Start()
